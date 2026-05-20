@@ -1,0 +1,10 @@
+h3_tf:
+  parent: base_link
+  child: h3_link
+  x: 0.0      # same position as base_link
+  y: 0.0
+  z: 0.0
+  roll: 0.0   # same orientation as base_link
+  pitch: 0.0
+  yaw: 0.0
+

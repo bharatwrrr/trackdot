@@ -1,0 +1,58 @@
+# pipeline_source.yaml
+#
+# Source mode configuration for camera_detector_node.
+# Loaded by camera_detector.launch.py for both left and right camera instances.
+#
+# source_mode: native  — aravissrc reads directly from camera hardware (PRODUCTION)
+#                        Pixels never touch ROS DDS. DeepStream owns the pixel path.
+#                        Requires triton_cam_driver to configure + release device first.
+#
+# source_mode: file    — filesrc + h264parse + nvv4l2decoder (DEV / BAG REPLAY)
+#                        Use camera_detector_dev.launch.py for this mode.
+#                        source_uri overrides the file path at launch time.
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# NOTE: camera_serial must match the serial parameter in
+# triton_cam_driver/config/cam_left_params.yaml (or cam_right_params.yaml).
+# The serial is passed to aravissrc's camera-name property and must exactly
+# match how libaravis identifies the Lucid Triton on the GigE network.
+# ─────────────────────────────────────────────────────────────────────────────
+
+cam_left_detector:
+  ros__parameters:
+    source_mode: "native"
+    config_file: "/home/bharatwrrr/trackdot/install/camera_detector/share/camera_detector/config/detector_config.yml"
+
+    # ── Native source ─────────────────────────────────────────────────────────
+    camera_ip:     "10.42.0.201" 
+    pixel_format:  "rggb"         # Must match pixelformat in cam_left_params.yaml
+    camera_width:  1920
+    camera_height: 1200
+    camera_fps:    10
+
+    # ── Viz branch (native mode only) ─────────────────────────────────────────
+    # Published as sensor_msgs/CompressedImage. Never on the inference hot path.
+    viz_img_topic: "debug_image"
+    viz_width:     960
+    viz_height:    600
+    viz_fps:       5
+    viz_quality:   70            # JPEG quality 0–100
+
+cam_right_detector:
+  ros__parameters:
+    source_mode: "native"
+    config_file: "/home/bharatwrrr/trackdot/install/camera_detector/share/camera_detector/config/detector_config.yml"
+
+    # ── Native source ─────────────────────────────────────────────────────────
+    camera_ip:     "10.42.0.202"
+    pixel_format:  "rggb"         # Must match pixelformat in cam_right_params.yaml
+    camera_width:  1920
+    camera_height: 1200
+    camera_fps:    10
+
+    # ── Viz branch (native mode only) ─────────────────────────────────────────
+    viz_img_topic: "debug_image"
+    viz_width:     960
+    viz_height:    600
+    viz_fps:       5
+    viz_quality:   70

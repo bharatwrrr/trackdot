@@ -1,0 +1,44 @@
+data_collection:
+  # Output directory where bags will be saved
+  output_dir: "/home/bharatwrrr/test_run/bags"
+  
+  # Prefix for bag filename (timestamp will be appended)
+  bag_name_prefix: "trackdot"
+
+  sensors:
+    include_h3: false # set to true when you add luminar h3 (remember to add the lidar topic as well)
+  
+  bag_record:
+    # Topics to record into the bag
+    topics:
+      # Camera topics (compressed for size efficiency)
+      - /triton_left/images/compressed
+      - /triton_right/images/compressed
+      
+      # LiDAR topic
+      - /aeva/atlas/point_cloud_compensated
+      
+      # GNSS topics
+      - /gnss/fix
+      - /gnss/imu
+      - /gnss/speed
+      - /gnss/time
+      - /gnss/position
+      
+      # CAN decoded signal topics (adjust to match your can_driver output)
+      - /can/vehicle_speed
+      - /can/steering_angle
+      - /can/acceleration
+      
+      # Static transform tree
+      - /tf_static
+    
+    # Bag compression settings
+    compression:
+      # Options: message, file (message is better for selective decompression)
+      mode: "message"
+        # Options: zstd, lz4 (lz4 is faster, zstd compresses better, NOTE: lz4 not available)
+      format: "zstd"
+    
+    # Path to QoS overrides file (relative to bringup package config dir)
+    qos_overrides_path: "config/qos_overrides.yaml"

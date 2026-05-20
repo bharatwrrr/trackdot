@@ -1,0 +1,24 @@
+# ============================================================
+# gnss_params.yaml  —  gnss_driver configuration
+#
+# Signal decoding is handled entirely by cantools reading the
+# .dbc file.  You do NOT need to specify bit positions, factors,
+# or offsets here — cantools reads all of that from the DBC.
+#
+# The only values you need to set are the three below.
+# ============================================================
+
+gnss_driver:
+  ros__parameters:
+
+    # USB serial port the CANmod.GPS enumerates as.
+    # Find it with:  ls /dev/ttyACM*
+    serial_port: "/dev/ttyACM0"
+
+    # Absolute path to the CSS Electronics .dbc file.
+    # The file is in your gnss_driver/dbc/ folder.
+    # Replace the filename below with your actual .dbc filename.
+    dbc_path: "/home/bharatwrrr/trackdot/src/gnss_driver/dbc/canmod-gps.dbc"
+
+    # tf2 frame id stamped on all published messages.
+    frame_id: "gnss"

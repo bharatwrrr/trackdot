@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package format="3">
+  <name>ros2_aeva_publisher</name>
+  <version>4.1.1</version>
+  <description>The ros2_aeva_publisher package</description>
+  <maintainer email="customersupport@aeva.ai">Aeva, Inc</maintainer>
+  <license>Aeva Software EULA</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>aeva_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>tf2_msgs</depend>
+  <depend>visualization_msgs</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
