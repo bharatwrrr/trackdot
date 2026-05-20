@@ -1,0 +1,3 @@
+[submodule "src/triton_cam_driver"]
+	path = src/triton_cam_driver
+	url = https://github.com/bharatwrrr/triton_cam_driver.git
