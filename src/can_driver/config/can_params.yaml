@@ -1,0 +1,6 @@
+can_driver_node:
+  ros__parameters:
+    interface: csscan_serial
+    channel: "/dev/serial/by-id/usb-CSS_Electroni_Virtual_COM_Port_12345678-if00"
+    poll_rate_hz: 20.0
+    frame_id: base_link
