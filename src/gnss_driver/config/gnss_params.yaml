@@ -13,7 +13,7 @@ gnss_driver:
 
     # USB serial port the CANmod.GPS enumerates as.
     # Find it with:  ls /dev/ttyACM*
-    serial_port: "/dev/ttyACM0"
+    serial_port: "/dev/serial/by-id/usb-CSS_Electronics_CANmod_4C496515-if01"
 
     # Absolute path to the CSS Electronics .dbc file.
     # The file is in your gnss_driver/dbc/ folder.
