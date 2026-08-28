@@ -17,18 +17,17 @@ data_collection:
       
       # LiDAR topic
       - /aeva/atlas/point_cloud_compensated
+      - /aeva/atlas/imu
       
       # GNSS topics
-      - /gnss/fix
       - /gnss/imu
       - /gnss/speed
       - /gnss/time
       - /gnss/position
-      
-      # CAN decoded signal topics (adjust to match your can_driver output)
-      - /can/vehicle_speed
-      - /can/steering_angle
-      - /can/acceleration
+      - /gnss/status
+
+      # CAN / ego vehicle speed
+      - /vehicle_state
       
       # Static transform tree
       - /tf_static
