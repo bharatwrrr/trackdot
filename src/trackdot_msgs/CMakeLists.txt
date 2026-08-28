@@ -17,6 +17,7 @@ find_package(std_msgs REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
 	"msg/VehicleDetection.msg"
 	"msg/VehicleDetectionArray.msg"
+	"msg/VehicleState.msg"
 	DEPENDENCIES std_msgs
 )
 ament_export_dependencies(rosidl_default_runtime)
