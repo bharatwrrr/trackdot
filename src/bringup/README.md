@@ -56,3 +56,36 @@ aevacli configuration set --sensor-url 10.42.0.45 --group scanner --setting scan
 The `-t 5` timeout flag is necessary because configuration changes trigger a LiDAR reboot. You may see a TIMEOUT error the first time you run a command—this is expected and the setting typically applies anyway. Verify with `configuration show`.
 
 The `setup_network.sh` script handles configuration setup automatically. Ensure the LiDAR's host IP is set to the Jetson's IP.
+
+## Inspecting a Recorded Bag
+
+```bash
+source ~/trackdot/install/setup.bash
+ros2 bag info <bag_dir>          # topics, message counts, duration
+ros2 bag play <bag_dir>          # replay
+```
+
+If `ros2 bag info`/`play` fails with `Could not find metadata in bag directory`, the recorder didn't shut down cleanly (crash, kill, power loss) and never wrote `metadata.yaml`. Fix it once with:
+
+```bash
+ros2 bag reindex -s mcap <bag_dir>
+```
+
+This does a full linear scan of the `.mcap` file to rebuild the index, so for a large bag it can take a couple of minutes — it only needs to be run once per bag. **Run it in a detached/background shell carefully**: wrapping it in `setsid` breaks the usual job-tracking of some terminal/agent harnesses (it silently orphans the process from the shell that launched it, which can make the launcher misreport the job as finished early). Plain `&`/`nohup` without `setsid` is safer, or just run it in the foreground and wait.
+
+### Extracting vehicle speed (or other topics) from a bag
+
+`scripts/extract_vehicle_speed.py` pulls `/vehicle_state.speed_mps` out of a bag and prints min/max/mean, with an optional CSV dump:
+
+```bash
+source ~/trackdot/install/setup.bash
+python3 src/bringup/scripts/extract_vehicle_speed.py <bag_dir> --csv speed.csv
+```
+
+It works on a normal (reindexed) bag via `rosbag2_py`, **and** on a bag that still has no `metadata.yaml`, by falling back to a raw linear scan of the `.mcap` file with the `mcap` Python library — no reindexing required for this script specifically. That fallback path needs two extra pip packages that aren't part of the ROS2 install:
+
+```bash
+pip3 install --user -r src/bringup/scripts/requirements.txt
+```
+
+The same raw-scan pattern in `read_via_raw_mcap()` works for any other topic (camera `/triton_*/images/compressed`, LiDAR `/aeva/atlas/point_cloud_compensated`, GNSS `/gnss/*`) — swap `TOPIC` and the message type at the top of the script.
